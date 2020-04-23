@@ -26,7 +26,7 @@ addBtn.addEventListener('click', function() {
   localStorage.setItem('notes', JSON.stringify(notesObj));
   //clear the textarea
   addTxt.value = '';
-  console.log(notesObj);
+  // console.log(notesObj);
   //using this function to displayNotes
   displayNotes();
 })
@@ -67,7 +67,7 @@ function displayNotes() {
 }
 
 function deleteNote(index) {
-  console.log('deleting', index);
+  // console.log('deleting', index);
   let notes = localStorage.getItem('notes');
   if (notes == null) {
     notesObj = [];
@@ -78,3 +78,26 @@ function deleteNote(index) {
   localStorage.setItem('notes', JSON.stringify(notesObj));
   displayNotes();
 }
+
+let search = document.getElementById('searchTxt');
+search.addEventListener('input', function() {
+  let searchValue = search.value.toLowerCase();
+  // console.log('input event fired', searchValue);
+
+  let cardNotes = document.getElementsByClassName('noteCard');
+  Array.from(cardNotes).forEach(function(element) {
+    let cardTxt = element.getElementsByTagName('p')[0].innerText;
+    // console.log(cardTxt);
+    if (cardTxt.includes(searchValue)) {
+      element.style.display = 'block'
+    } else {
+      element.style.display = 'none'
+    }
+  })
+})
+// further improvement
+// 1) add title
+// 2) mark important
+// 3) edit the node
+// 4) separate nodes by user
+// 5) sync with server and host 
