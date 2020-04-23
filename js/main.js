@@ -67,7 +67,9 @@ function displayNotes() {
 }
 
 function deleteNote(index) {
+  //here we recieve the index number of the card to be deleted
   // console.log('deleting', index);
+  //getting all the notes
   let notes = localStorage.getItem('notes');
   if (notes == null) {
     notesObj = [];
@@ -75,17 +77,26 @@ function deleteNote(index) {
     notesObj = JSON.parse(notes)
   }
   notesObj.splice(index, 1);
+  //deleted
+  //updating the localStorage
   localStorage.setItem('notes', JSON.stringify(notesObj));
   displayNotes();
 }
 
+//grabbing the search tab
 let search = document.getElementById('searchTxt');
+//whenever user adds/remove anything this event is fired
 search.addEventListener('input', function() {
+  //getting the search value. Converting it to lowercase
   let searchValue = search.value.toLowerCase();
   // console.log('input event fired', searchValue);
 
+  //getting all the noteCards
   let cardNotes = document.getElementsByClassName('noteCard');
+
+  //traversing for each noteCard
   Array.from(cardNotes).forEach(function(element) {
+    //getting the noteCard value
     let cardTxt = element.getElementsByTagName('p')[0].innerText;
     // console.log(cardTxt);
     if (cardTxt.includes(searchValue)) {
