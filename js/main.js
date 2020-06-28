@@ -12,7 +12,7 @@ addBtn.addEventListener('click', function() {
   //notes is the key in localStorage
   let notes = localStorage.getItem('notes');
 
-  //check if there are any notes present
+  //check if there are any notes present or notes is there in localStorage
   if (notes == null) {
     //if no notes the initialize an empty array
     notesObj = [];
@@ -77,7 +77,7 @@ function deleteNote(index) {
     notesObj = JSON.parse(notes)
   }
   notesObj.splice(index, 1);
-  //deleted
+  //deleteds
   //updating the localStorage
   localStorage.setItem('notes', JSON.stringify(notesObj));
   displayNotes();
@@ -93,11 +93,12 @@ search.addEventListener('input', function() {
 
   //getting all the noteCards
   let cardNotes = document.getElementsByClassName('noteCard');
-
+  // console.log(cardNotes);
   //traversing for each noteCard
   Array.from(cardNotes).forEach(function(element) {
     //getting the noteCard value
     let cardTxt = element.getElementsByTagName('p')[0].innerText;
+    //element.getElementsByTagName('p') returns the html collection and the 0 index contains the tag
     // console.log(cardTxt);
     if (cardTxt.includes(searchValue)) {
       element.style.display = 'block'
