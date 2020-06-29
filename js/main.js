@@ -8,24 +8,39 @@ let addBtn = document.getElementById('addBtn');
 addBtn.addEventListener('click', function() {
   //grabbing the textarea
   let addTxt = document.getElementById('addTxt');
+  let addTitle = document.getElementById('addTitle');
+  if (addTxt.value == '') {
+    alert('Please Enter the Description');
+    return;
+  }
+  if (addTitle.value == '') {
+    alert('Please Enter the Title');
+    return;
+  }
 
   //notes is the key in localStorage
   let notes = localStorage.getItem('notes');
+  let notesTitle = localStorage.getItem('title');
 
   //check if there are any notes present or notes is there in localStorage
   if (notes == null) {
     //if no notes the initialize an empty array
     notesObj = [];
+    notesTitleObj = [];
   } else {
     //if notes present, then take them in an array
-    notesObj = JSON.parse(notes)
+    notesObj = JSON.parse(notes);
+    notesTitleObj = JSON.parse(notesTitle);
   }
   //push the new note in array
   notesObj.push(addTxt.value);
+  notesTitleObj.push(addTitle.value);
   //update the localStorage
   localStorage.setItem('notes', JSON.stringify(notesObj));
+  localStorage.setItem('title', JSON.stringify(notesTitleObj));
   //clear the textarea
   addTxt.value = '';
+  addTitle.value = '';
   // console.log(notesObj);
   //using this function to displayNotes
   displayNotes();
@@ -34,10 +49,13 @@ addBtn.addEventListener('click', function() {
 function displayNotes() {
   //extracting the notes from localStorage
   let notes = localStorage.getItem('notes');
+  let notesTitle = localStorage.getItem('title');
   if (notes == null) {
     notesObj = [];
+    notesTitleObj = [];
   } else {
-    notesObj = JSON.parse(notes)
+    notesObj = JSON.parse(notes);
+    notesTitleObj = JSON.parse(notesTitle);
   }
   //creating a separate card for each note
   let html = '';
@@ -46,7 +64,7 @@ function displayNotes() {
 
     <div class="noteCard card my-2 mx-2" style="width: 12rem;">
       <div class="card-body">
-        <h5 class="card-title">Note ${index+1}</h5>
+        <h5 class="card-title">${notesTitleObj[index]}</h5>
         <p class="card-text">${element}</p>
         <button id="${index}" onclick="deleteNote(this.id)" class="btn btn-primary">Delete Note</button>
       </div>
@@ -71,15 +89,20 @@ function deleteNote(index) {
   // console.log('deleting', index);
   //getting all the notes
   let notes = localStorage.getItem('notes');
+  let notesTitle = localStorage.getItem('title');
   if (notes == null) {
     notesObj = [];
+    notesTitleObj = [];
   } else {
     notesObj = JSON.parse(notes)
+    notesTitleObj = JSON.parse(notesTitle);
   }
   notesObj.splice(index, 1);
+  notesTitleObj.splice(index, 1);
   //deleteds
   //updating the localStorage
   localStorage.setItem('notes', JSON.stringify(notesObj));
+  localStorage.setItem('title', JSON.stringify(notesTitleObj));
   displayNotes();
 }
 
@@ -108,7 +131,7 @@ search.addEventListener('input', function() {
   })
 })
 // further improvement
-// 1) add title
+// 1) add title done
 // 2) mark important
 // 3) edit the node
 // 4) separate nodes by user
